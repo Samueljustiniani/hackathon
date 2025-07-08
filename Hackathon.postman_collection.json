@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "565a4110-09b2-4d86-9d50-cb79e348a700",
+		"name": "Hackathon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43465700",
+		"_collection_link": "https://www.postman.com/cryosat-saganist-97401868/sql-server/collection/1yzsp7b/valle-grande-copy-2?action=share&source=collection_link&creator=43465700"
+	},
+	"item": [
+		{
+			"name": "hacka",
+			"item": [
+				{
+					"name": "libro/artículo/tesis",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoDocumento\": \"libro\",\r\n    \"autor\": \"Gabriel García Márquez\",\r\n    \"titulo\": \"Cien años de soledad\",\r\n    \"anioPublicacion\": 1967,\r\n    \"editorial\": \"Sudamericana\",\r\n    \"numeroEdicion\": \"1ra\",\r\n    \"numeroPaginas\": 496,\r\n    \"tema\": \"Realismo Mágico\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/api/fichas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"fichas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inactivos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8085/api/fichas/estado/false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"fichas",
+								"estado",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restaurar Logico",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Lácteos\",\r\n  \"status\": \"1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/api/fichas/restore/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"fichas",
+								"restore",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminado Logico",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/api/fichas/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"fichas",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
