@@ -1,0 +1,105 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode ? 'Editar Ficha Bibliográfica' : 'Nueva Ficha Bibliográfica' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="fichaForm" (ngSubmit)="onSubmit()" class="ficha-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select formControlName="tipoDocumento">
+          <!-- CAMBIO CLAVE AQUÍ: Usar type.value para el valor y type.label para el texto visible -->
+          <mat-option *ngFor="let type of documentTypes" [value]="type.value">{{type.label}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="fichaForm.get('tipoDocumento')?.hasError('required') && fichaForm.get('tipoDocumento')?.touched">
+          El tipo de documento es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Autor</mat-label>
+        <input matInput formControlName="autor" placeholder="Ej: Gabriel García Márquez">
+        <mat-error *ngIf="fichaForm.get('autor')?.hasError('required') && fichaForm.get('autor')?.touched">
+          El autor es requerido.
+        </mat-error>
+        <mat-error *ngIf="fichaForm.get('autor')?.hasError('pattern') && fichaForm.get('autor')?.touched">
+          Caracteres inválidos detectados.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" placeholder="Ej: Cien años de soledad">
+        <mat-error *ngIf="fichaForm.get('titulo')?.hasError('required') && fichaForm.get('titulo')?.touched">
+          El título es requerido.
+        </mat-error>
+        <mat-error *ngIf="fichaForm.get('titulo')?.hasError('pattern') && fichaForm.get('titulo')?.touched">
+          Caracteres inválidos detectados.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Año de Publicación</mat-label>
+        <input matInput type="number" formControlName="anioPublicacion" placeholder="Ej: 1967">
+        <mat-error *ngIf="fichaForm.get('anioPublicacion')?.hasError('required') && fichaForm.get('anioPublicacion')?.touched">
+          El año de publicación es requerido.
+        </mat-error>
+        <mat-error *ngIf="fichaForm.get('anioPublicacion')?.hasError('min') || fichaForm.get('anioPublicacion')?.hasError('max')">
+          Ingrese un año de publicación válido.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campos condicionales -->
+      <ng-container *ngIf="!documentTypesWithReducedFields.includes(fichaForm.get('tipoDocumento')?.value)">
+        <mat-form-field appearance="outline">
+          <mat-label>Editorial</mat-label>
+          <input matInput formControlName="editorial" placeholder="Ej: Editorial Sudamericana">
+          <mat-error *ngIf="fichaForm.get('editorial')?.hasError('required') && fichaForm.get('editorial')?.touched">
+            La editorial es requerida.
+          </mat-error>
+          <mat-error *ngIf="fichaForm.get('editorial')?.hasError('pattern') && fichaForm.get('editorial')?.touched">
+            Caracteres inválidos detectados.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número de Edición</mat-label>
+          <input matInput formControlName="numeroEdicion" placeholder="Ej: 1">
+          <mat-error *ngIf="fichaForm.get('numeroEdicion')?.hasError('pattern') && fichaForm.get('numeroEdicion')?.touched">
+            Solo se permiten números.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número de Páginas</mat-label>
+          <input matInput type="number" formControlName="numeroPaginas" placeholder="Ej: 496">
+          <mat-error *ngIf="fichaForm.get('numeroPaginas')?.hasError('required') && fichaForm.get('numeroPaginas')?.touched">
+            El número de páginas es requerido.
+          </mat-error>
+          <mat-error *ngIf="fichaForm.get('numeroPaginas')?.hasError('min')">
+            El número de páginas debe ser al menos 1.
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tema</mat-label>
+        <input matInput formControlName="tema" placeholder="Ej: Realismo mágico, Novela">
+        <mat-error *ngIf="fichaForm.get('tema')?.hasError('required') && fichaForm.get('tema')?.touched">
+          El tema es requerido.
+        </mat-error>
+        <mat-error *ngIf="fichaForm.get('tema')?.hasError('pattern') && fichaForm.get('tema')?.touched">
+          Caracteres inválidos detectados.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="fichaForm.invalid">
+          <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon> {{ isEditMode ? 'Guardar Cambios' : 'Crear Ficha' }}
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+          <mat-icon>cancel</mat-icon> Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

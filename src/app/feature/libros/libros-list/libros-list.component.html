@@ -1,0 +1,121 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Listado de Fichas Bibliográficas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="controls-container">
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar por cualquier campo" #input>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <div class="action-buttons">
+        <!-- Botón "Nueva Ficha" eliminado según tu solicitud -->
+        <button mat-raised-button color="accent" (click)="downloadPdfReport()">
+          <mat-icon>picture_as_pdf</mat-icon> Descargar PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8 table-container">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="idFicha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.idFicha}} </td>
+        </ng-container>
+
+        <!-- Tipo Documento Column -->
+        <ng-container matColumnDef="tipoDocumento">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Documento </th>
+          <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+        </ng-container>
+
+        <!-- Autor Column -->
+        <ng-container matColumnDef="autor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Autor </th>
+          <td mat-cell *matCellDef="let element"> {{element.autor}} </td>
+        </ng-container>
+
+        <!-- Titulo Column -->
+        <ng-container matColumnDef="titulo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
+          <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+        </ng-container>
+
+        <!-- Año Publicacion Column -->
+        <ng-container matColumnDef="anioPublicacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Año Publicación </th>
+          <td mat-cell *matCellDef="let element"> {{element.anioPublicacion}} </td>
+        </ng-container>
+
+        <!-- Editorial Column -->
+        <ng-container matColumnDef="editorial">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Editorial </th>
+          <td mat-cell *matCellDef="let element"> {{element.editorial}} </td>
+        </ng-container>
+
+        <!-- Numero Edicion Column -->
+        <ng-container matColumnDef="numeroEdicion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> No. Edición </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroEdicion}} </td>
+        </ng-container>
+
+        <!-- Numero Paginas Column -->
+        <ng-container matColumnDef="numeroPaginas">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> No. Páginas </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroPaginas}} </td>
+        </ng-container>
+
+        <!-- Tema Column -->
+        <ng-container matColumnDef="tema">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tema </th>
+          <td mat-cell *matCellDef="let element"> {{element.tema}} </td>
+        </ng-container>
+
+        <!-- Fecha Agregada Column -->
+        <ng-container matColumnDef="fechaAgregada">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Agregada </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaAgregada | date:'shortDate'}} </td>
+        </ng-container>
+
+        <!-- Estado Column -->
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon [color]="element.estado ? 'primary' : 'warn'">
+              {{element.estado ? 'check_circle' : 'cancel'}}
+            </mat-icon>
+            {{element.estado ? 'Activo' : 'Inactivo'}}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="editFicha(element.idFicha)" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteFicha(element.idFicha)" matTooltip="Eliminar (Inactivar)" *ngIf="element.estado">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="restoreFicha(element.idFicha)" matTooltip="Restaurar (Activar)" *ngIf="!element.estado">
+              <mat-icon>restore</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colSpan="999">No hay datos que coincidan con el filtro "{{input.value}}"</td>
+        </tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
