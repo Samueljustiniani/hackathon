@@ -1,0 +1,17 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1434;databaseName=yala;encrypt=true;trustServerCertificate=true
+    username: sa
+    password: Admin12345
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: none # Puede ser 'create', 'update', 'validate' o 'none'
+      naming: 
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true 
